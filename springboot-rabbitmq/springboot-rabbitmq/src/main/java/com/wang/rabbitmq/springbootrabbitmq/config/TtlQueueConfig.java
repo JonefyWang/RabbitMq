@@ -56,7 +56,7 @@ public class TtlQueueConfig {
     public Queue queueA(){
         Map<String,Object> arguments = new HashMap<>();
         //设置死信队列
-        arguments.put("x-dead-letter-exhange",Y_DEAD_LETTER_EXCHANGE);
+        arguments.put("x-dead-letter-exchange",Y_DEAD_LETTER_EXCHANGE);
         //设置死信队列RoutingKey
         arguments.put("x-dead-letter-routing-key","YD");
         //设置TTl  单位ms
@@ -71,7 +71,7 @@ public class TtlQueueConfig {
     public Queue queueB(){
         Map<String,Object> arguments = new HashMap<>();
         //设置死信队列
-        arguments.put("x-dead-letter-exhange",Y_DEAD_LETTER_EXCHANGE);
+        arguments.put("x-dead-letter-exchange",Y_DEAD_LETTER_EXCHANGE);
         //设置死信队列RoutingKey
         arguments.put("x-dead-letter-routing-key","YD");
         //设置TTl  单位ms
