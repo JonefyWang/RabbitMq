@@ -30,6 +30,9 @@ public class TtlQueueConfig {
     public static final String QUEUE_B = "QB";
     //死信队列名称
     public static final String DEAD_LETTER_QUEUE = "QD";
+    //普通队列名称
+    public static final String QUEUE_C = "QC";
+
 
     /**
      * 声明xExchange交换机
@@ -76,7 +79,7 @@ public class TtlQueueConfig {
         arguments.put("x-dead-letter-routing-key","YD");
         //设置TTl  单位ms
         arguments.put("x-message-ttl",40000);
-        return QueueBuilder.durable(QUEUE_B ).withArguments(arguments).build();
+        return QueueBuilder.durable(QUEUE_B).withArguments(arguments).build();
     }
 
     /**
@@ -86,6 +89,20 @@ public class TtlQueueConfig {
     @Bean("queueD")
     public Queue queueD(){
         return new Queue(DEAD_LETTER_QUEUE);
+    }
+
+    /**
+     * 声明QC
+     */
+    @Bean("queueC")
+    public Queue queueC(){
+        Map<String,Object> arguments = new HashMap<>();
+        //设置死信队列
+        arguments.put("x-dead-letter-exchange",Y_DEAD_LETTER_EXCHANGE);
+        //设置死信队列RoutingKey
+        arguments.put("x-dead-letter-routing-key","YD");
+
+        return QueueBuilder.durable(QUEUE_C).withArguments(arguments).build();
     }
     /**
      * 绑定queueA
@@ -102,6 +119,14 @@ public class TtlQueueConfig {
     public Binding queueBBindX(@Qualifier("queueB") Queue queueB,
                               @Qualifier("xExchange") DirectExchange xExchange){
         return BindingBuilder.bind(queueB).to(xExchange).with("XB");
+    }
+    /**
+     * 绑定queueC
+     */
+    @Bean
+    public Binding queueCBindX(@Qualifier("queueC") Queue queueC,
+                               @Qualifier("xExchange") DirectExchange xExchange){
+        return BindingBuilder.bind(queueC).to(xExchange).with("XC");
     }
     /**
      * 绑定queueD
